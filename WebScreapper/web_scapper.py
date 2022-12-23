@@ -1,8 +1,8 @@
 import time
+import pyrebase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-
 
 # Defining the path of the executable web driver 
 PATH = "../chromedriver.exe"
@@ -18,13 +18,34 @@ driver = webdriver.Chrome(PATH, chrome_options=options)
 # Gets the webpage info 
 driver.get("https://nordpool.didnt.work/?vat")
 
+pricelist = {}
 
 # By Xpath find the table in the webpage, then gets all the rows of the table, loops trough it and prints out the result
 table = driver.find_element(By.XPATH, '//*[@id="app"]/table/tbody')
 rows = table.find_elements(By.TAG_NAME, "tr")
-for row in rows:
-    col = row.find_elements(By.TAG_NAME, "td")[0]
-    print(col.text)
+for count,row in enumerate(rows):
+    timeOfPrice = row.find_element(By.TAG_NAME, "th")
+    price = row.find_elements(By.TAG_NAME, "td")[0]
+    pricelist[timeOfPrice.text] = {}
+    pricelist[timeOfPrice.text]['Price'] = price.text
+    pricelist[timeOfPrice.text]['Color'] = price.value_of_css_property("background-color")
+
+firebaseConfig = {
+  "apiKey": "AIzaSyABoySqLWPYVdry7cNeyWINud0WTY-Il4k",
+  "authDomain": "smarthomeappv2.firebaseapp.com",
+  "databaseURL": "https://smarthomeappv2-default-rtdb.europe-west1.firebasedatabase.app",
+  "projectId": "smarthomeappv2",
+  "storageBucket": "smarthomeappv2.appspot.com",
+  "messagingSenderId": "297482648339",
+  "appId": "1:297482648339:web:b19da6a51cbb5a25a338e6"
+}
+
+firebase = pyrebase.initialize_app(firebaseConfig)
+database = firebase.database()
+
+
+database.child("Todays Prices").update(pricelist)
+
 
 #Runs every one hour to update the results
-time.sleep(3600)
+#time.sleep(3600)
