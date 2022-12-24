@@ -1,11 +1,8 @@
 package com.example.smarthomeappv2
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.example.smarthomeappv2.databinding.ActivityLoginBinding
 import com.example.smarthomeappv2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -31,11 +28,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             true
-        }
-        val buttonClick = findViewById<Button>(R.id.mainPageSignUp)
-        buttonClick.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
         }
     }
     private fun replaceFragment(fragment: Fragment){
