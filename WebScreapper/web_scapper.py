@@ -3,6 +3,9 @@ import pyrebase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from datetime import date
+
+today = date.today()
 
 # Defining the path of the executable web driver 
 PATH = "../chromedriver.exe"
@@ -44,7 +47,7 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
 
 
-database.child("Todays Prices").update(pricelist)
+database.child("Eletricity Prices").child(today).update(pricelist)
 
 
 #Runs every one hour to update the results
