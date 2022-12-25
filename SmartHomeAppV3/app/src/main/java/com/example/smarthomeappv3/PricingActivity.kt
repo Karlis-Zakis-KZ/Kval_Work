@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthomeappv3.databinding.ActivityPricingBinding
 import com.google.firebase.database.*
+import java.time.LocalDate
 
 
 class PricingActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class PricingActivity : AppCompatActivity() {
     private lateinit var priceArrayList : ArrayList<PriceData>
     private lateinit var binding: ActivityPricingBinding
 
-
+    val current = LocalDate.now().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class PricingActivity : AppCompatActivity() {
 
     private fun getUserData() {
 
-        dbref = FirebaseDatabase.getInstance().getReference("/Eletricity Prices/2022-12-25")
+        dbref = FirebaseDatabase.getInstance().getReference("/Eletricity Prices/"+ current)
         dbref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
