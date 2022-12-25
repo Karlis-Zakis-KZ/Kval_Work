@@ -34,13 +34,13 @@ for count,row in enumerate(rows):
     pricelist[timeOfPrice.text]['Color'] = price.value_of_css_property("background-color")
 
 firebaseConfig = {
-  "apiKey": "AIzaSyABoySqLWPYVdry7cNeyWINud0WTY-Il4k",
-  "authDomain": "smarthomeappv2.firebaseapp.com",
-  "databaseURL": "https://smarthomeappv2-default-rtdb.europe-west1.firebasedatabase.app",
-  "projectId": "smarthomeappv2",
-  "storageBucket": "smarthomeappv2.appspot.com",
-  "messagingSenderId": "297482648339",
-  "appId": "1:297482648339:web:b19da6a51cbb5a25a338e6"
+  "apiKey": "AIzaSyBlz2ZT4Rew_CdQrXEGmw7xMpkMj1_oiAM",
+  "authDomain": "smarthomeappv3.firebaseapp.com",
+  "databaseURL": "https://smarthomeappv3-default-rtdb.europe-west1.firebasedatabase.app",
+  "projectId": "smarthomeappv3",
+  "storageBucket": "smarthomeappv3.appspot.com",
+  "messagingSenderId": "1012507563937",
+  "appId": "1:1012507563937:web:e09a9de5c730b344cf9de0"
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
