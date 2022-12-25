@@ -22,8 +22,8 @@ class MyAdapter(private val priceList : ArrayList<PriceData>) : RecyclerView.Ada
 
         val currentitem = priceList[position]
 
-        holder.color.text = currentitem.Color
-        holder.price.text = currentitem.Price
+        //holder.color.text = currentitem.Color.toString()
+        //holder.price.text = currentitem.Price.toString()
 
     }
 
@@ -35,8 +35,8 @@ class MyAdapter(private val priceList : ArrayList<PriceData>) : RecyclerView.Ada
 
     class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
-        val color : TextView = itemView.findViewById(R.id.tvfirstName)
-        val price : TextView = itemView.findViewById(R.id.tvage)
+        //val color : TextView = itemView.findViewById(R.id.tvfirstName)
+        //val price : TextView = itemView.findViewById(R.id.tvage)
 
     }
 

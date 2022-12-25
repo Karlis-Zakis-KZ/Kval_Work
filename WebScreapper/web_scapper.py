@@ -30,8 +30,9 @@ for count,row in enumerate(rows):
     timeOfPrice = row.find_element(By.TAG_NAME, "th")
     price = row.find_elements(By.TAG_NAME, "td")[0]
     pricelist[timeOfPrice.text] = {}
-    pricelist[timeOfPrice.text]['Price'] = price.text
+    pricelist[timeOfPrice.text]['Price'] = float(price.text)
     pricelist[timeOfPrice.text]['Color'] = price.value_of_css_property("background-color")
+    pricelist[timeOfPrice.text]['Time'] = int(str(timeOfPrice.text)[:2])
 
 firebaseConfig = {
   "apiKey": "AIzaSyBlz2ZT4Rew_CdQrXEGmw7xMpkMj1_oiAM",
