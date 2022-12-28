@@ -47,9 +47,7 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
 
-
 database.child("Eletricity Prices").child(today).update(pricelist)
-
 
 #Runs every one hour to update the results
 #time.sleep(3600)

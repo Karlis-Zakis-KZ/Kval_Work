@@ -1,26 +1,18 @@
 package com.example.smarthomeappv3
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.smarthomeappv3.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.button.MaterialButton
+import android.os.Bundle
+import com.example.smarthomeappv3.databinding.ActivityAddDeviceBinding
 
+class AddDevice : AppCompatActivity() {
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
+    private lateinit var binding: ActivityAddDeviceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityAddDeviceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationBar)
-        bottomNavigationView.selectedItemId = R.id.home
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
@@ -33,12 +25,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        val buttonClick = findViewById<MaterialButton>(R.id.addDeviceButton)
-        buttonClick.setOnClickListener {
-            replaceActivity(AddDevice())
-        }
-    }
 
+    }
     private fun replaceActivity(activity: AppCompatActivity){
 
         val i = Intent(this,activity::class.java)

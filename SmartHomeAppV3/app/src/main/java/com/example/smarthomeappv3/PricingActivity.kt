@@ -11,6 +11,7 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
 import java.time.LocalDate
 
@@ -23,7 +24,7 @@ class PricingActivity : AppCompatActivity() {
     lateinit var barChart: BarChart
     lateinit var barData: BarData
     lateinit var barDataSet: BarDataSet
-    lateinit var barEntriesList: ArrayList<BarEntry>
+    private var barEntriesList = ArrayList<BarEntry>()
 
     val current = LocalDate.now().toString()
 
@@ -32,6 +33,10 @@ class PricingActivity : AppCompatActivity() {
 
         binding = ActivityPricingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationBar)
+        bottomNavigationView.selectedItemId = R.id.Pricing
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
@@ -83,6 +88,7 @@ class PricingActivity : AppCompatActivity() {
 
     private fun setBarChart() {
         barChart = findViewById(R.id.barChart)
+        barEntriesList.clear()
 
         // on below line we are calling get bar
         // chart data to add data to our array list

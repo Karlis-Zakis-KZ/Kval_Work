@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.example.smarthomeappv3.databinding.ActivityUserBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class UserActivity : AppCompatActivity() {
@@ -26,6 +27,9 @@ class UserActivity : AppCompatActivity() {
 
         userPageEmail.text = mCurrentUserEmail
         userPageUUID.text = mCurrentUserId
+
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationBar)
+        bottomNavigationView.selectedItemId = R.id.User
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
