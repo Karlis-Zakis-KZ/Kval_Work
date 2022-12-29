@@ -14,7 +14,8 @@ const String urlData = "http://192.168.1.110/meter/0";
 const String urlCommands = "http://192.168.1.110/relay/0?";
 
 const String UUID  = "LismajVzPrUOS48HmhzoGpphBAc2";
-String path = "/Users/" + UUID;
+const String DeviceID = "SmartPlug2";
+const String path = "/Users/" + UUID;
 
 void setup() {
   Serial.begin(9600);
@@ -22,7 +23,7 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
   }
-  Serial.println();
+  //Serial.println();
   
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
 }
@@ -33,8 +34,11 @@ void loop() {
  
   while(Serial.available()){
     sensor_data=Serial.readString(); 
-    Sr=true;       
+    Sr=true;
   }
+
+  Serial.flush();
+  Serial.end();
   
   delay(1000);
 
@@ -47,9 +51,9 @@ void loop() {
     String humidity = values.substring(0, fristCommaIndex);
     String tempeture = values.substring(fristCommaIndex+1, values.length());
 
-    Firebase.setString(path+"/Humidity",humidity);
-    delay(10);
-    Firebase.setString(path+"/Tempeture",tempeture);
+    Firebase.setString(path+"/Temp"+"/Humidity",humidity);
+    delay(1000);
+    Firebase.setString(path+"/Temp"+"/Tempeture",tempeture);
     delay(1000);
     
     if (Firebase.failed()) {  
@@ -60,22 +64,52 @@ void loop() {
  
     HTTPClient http;  //Declare an object of class HTTPClient
  
-    http.begin(urlData);  //Specify request destination
+    http.begin(urlCommands);  //Specify request destination
     int httpCode = http.GET();                                  //Send the request
- 
-    if (httpCode > 0) { //Check the returning code
-      String payload = http.getString();   //Get the request response payload
-      Serial.println(payload);             //Print the response payload
-    }
-    http.end();   //Close connection
 
-    String postData = "turn=off";
-    delay(5000);
-    http.begin(urlCommands);
-    delay(2000);
-    http.POST(postData);
-    delay(2000);
-    http.end();
+    String payload = "";
+
+    if (httpCode > 0) { //Check the returning code
+      payload = http.getString();   //Get the request response payload
+      //Serial.println(payload);             //Print the response payload
+    }
+    http.end(); 
+
+    int fristValueStart = payload.indexOf(':');
+    int fristValueEnd = payload.indexOf(',');
+
+    String state = payload.substring(fristValueStart+1, fristValueEnd);
+
+    FirebaseObject object = Firebase.get("Users/"+UUID+"/"+DeviceID);
+
+    if(object.getString("On_Status") != state){
+      if(state == "true"){
+        http.begin(urlCommands);
+        http.POST("turn=off");
+        http.end();
+      }else{
+        http.begin(urlCommands);
+        http.POST("turn=on");
+        http.end();
+      }
+      delay(1000);
+    }
+    String deviceData = "";
+    http.begin(urlData);
+    int httpdata = http.GET();
+    if (httpdata > 0) { //Check the returning code
+      deviceData = http.getString();   //Get the request response payload
+    }
+    if(object.getString("Consumed_Energy_AtStart")=="0"){
+      int totalStart = deviceData.indexOf("total");
+      int totalEnd = deviceData.indexOf('}');
+
+      String totalConsumtion = deviceData.substring(totalStart+7, totalEnd);
+      Firebase.setString(path + "/" + DeviceID + "/" +"Consumed_Energy_AtStart",totalConsumtion);
+    }
+
+    
+
   }
   delay(30000);
 }
