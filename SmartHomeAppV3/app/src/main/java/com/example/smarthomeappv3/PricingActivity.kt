@@ -2,7 +2,9 @@ package com.example.smarthomeappv3
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +28,7 @@ class PricingActivity : AppCompatActivity() {
     lateinit var barDataSet: BarDataSet
     private var barEntriesList = ArrayList<BarEntry>()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     val current = LocalDate.now().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +71,7 @@ class PricingActivity : AppCompatActivity() {
                         val price = userSnapshot.getValue(PriceData::class.java)
                         priceArrayList.add(price!!)
                     }
-                    priceRecyclerview.adapter = MyAdapter(priceArrayList)
+                    //priceRecyclerview.adapter = MyAdapter(priceArrayList)
                 }
                 setBarChart()
             }

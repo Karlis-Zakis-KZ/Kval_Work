@@ -31,14 +31,16 @@ class AddDevice : AppCompatActivity() {
 
             val database = FirebaseDatabase.getInstance()
 
-            database.reference.child("Users/$mCurrentUserId/$deviceID").child("Device_ID").setValue(deviceID)
-            database.reference.child("Users/$mCurrentUserId/$deviceID").child("Device_Name").setValue(deviceName)
-            database.reference.child("Users/$mCurrentUserId/$deviceID").child("On_Status").setValue("False")
-            database.reference.child("Users/$mCurrentUserId/$deviceID").child("Consumed_Energy_AtStart").setValue(0)
-            database.reference.child("Users/$mCurrentUserId/$deviceID").child("Current_Consumption").setValue(0)
-            database.reference.child("Users/$mCurrentUserId/$deviceID").child("Last_Calculated_Consumption").setValue(0)
-            database.reference.child("Users/$mCurrentUserId/$deviceID").child("Calculated_Price").setValue(0)
-            database.reference.child("Users/$mCurrentUserId/$deviceID").child("Device_IP").setValue(deviceIP)
+            val devicePath = "Users/$mCurrentUserId/Devices/$deviceID"
+
+            database.reference.child(devicePath).child("Device_ID").setValue(deviceID)
+            database.reference.child(devicePath).child("Device_Name").setValue(deviceName)
+            database.reference.child(devicePath).child("On_Status").setValue("False")
+            database.reference.child(devicePath).child("Consumed_Energy_AtStart").setValue(0)
+            database.reference.child(devicePath).child("Current_Consumption").setValue(0)
+            database.reference.child(devicePath).child("Last_Calculated_Consumption").setValue(0)
+            database.reference.child(devicePath).child("Calculated_Price").setValue(0)
+            database.reference.child(devicePath).child("Device_IP").setValue(deviceIP)
             replaceActivity(MainActivity())
 
         }

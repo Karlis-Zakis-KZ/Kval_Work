@@ -46,6 +46,17 @@
         />
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/deviceList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomNavigationBar"
+        android:layout_below="@+id/textCurrentHumid"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textCurrentHumid"
+        app:layout_constraintTop_toTopOf="@+id/textCurrentHumid" />
+
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="60dp"
@@ -53,12 +64,12 @@
         android:layout_above="@+id/bottomNavigationBar"
         android:id="@+id/addDeviceButton"
         android:layout_marginBottom="30dp"
-        android:layout_alignRight="@+id/bottomNavigationBar"
+        android:layout_alignEnd="@+id/bottomNavigationBar"
         android:insetLeft="5dp"
         android:insetTop="5dp"
         android:insetRight="5dp"
         android:insetBottom="5dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
         app:icon="@drawable/add_device"
         app:iconPadding="0dp"
         app:iconSize="24dp"
