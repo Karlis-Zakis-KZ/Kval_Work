@@ -49,10 +49,32 @@
         android:textSize="20sp"
         android:layout_below="@+id/textForDeviceID"/>
 
-    <Button
+    <TextView
+        android:id="@+id/textForDeviceIP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/inputDeviceID"
+        android:text="Input Device local IP adress"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/inputDeviceIP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="15"
+        android:inputType="textPersonName"
+        android:hint="Device ID"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:textSize="20sp"
+        android:layout_below="@+id/textForDeviceIP"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputDeviceIP"
         android:layout_centerHorizontal="true"
         android:id="@+id/saveDeviceInfo"
         android:layout_marginTop="50dp"

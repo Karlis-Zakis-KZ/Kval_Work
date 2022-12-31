@@ -27,6 +27,7 @@ class AddDevice : AppCompatActivity() {
         saveDevice.setOnClickListener {
             val deviceName = binding.inputDeviceName.text.toString()
             val deviceID = binding.inputDeviceID.text.toString()
+            val deviceIP = binding.inputDeviceIP.text.toString()
 
             val database = FirebaseDatabase.getInstance()
 
@@ -37,7 +38,7 @@ class AddDevice : AppCompatActivity() {
             database.reference.child("Users/$mCurrentUserId/$deviceID").child("Current_Consumption").setValue(0)
             database.reference.child("Users/$mCurrentUserId/$deviceID").child("Last_Calculated_Consumption").setValue(0)
             database.reference.child("Users/$mCurrentUserId/$deviceID").child("Calculated_Price").setValue(0)
-
+            database.reference.child("Users/$mCurrentUserId/$deviceID").child("Device_IP").setValue(deviceIP)
             replaceActivity(MainActivity())
 
         }
