@@ -2,6 +2,7 @@ package com.example.smarthomeappv3
 
 import android.content.Intent
 import android.graphics.Color
+import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -23,14 +24,15 @@ class PricingActivity : AppCompatActivity() {
     private lateinit var priceRecyclerview : RecyclerView
     private lateinit var priceArrayList : ArrayList<PriceData>
     private lateinit var binding: ActivityPricingBinding
-    lateinit var barChart: BarChart
-    lateinit var barData: BarData
-    lateinit var barDataSet: BarDataSet
+    private lateinit var barChart: BarChart
+    private lateinit var barData: BarData
+    private lateinit var barDataSet: BarDataSet
     private var barEntriesList = ArrayList<BarEntry>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     val current = LocalDate.now().toString()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,11 +58,14 @@ class PricingActivity : AppCompatActivity() {
         priceRecyclerview.layoutManager = LinearLayoutManager(this)
         priceRecyclerview.setHasFixedSize(true)
 
-        priceArrayList = arrayListOf<PriceData>()
+        priceArrayList = arrayListOf()
         getUserData()
+
+
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun getUserData() {
 
         dbref = FirebaseDatabase.getInstance().getReference("/Eletricity Prices/"+ current)
@@ -73,6 +78,12 @@ class PricingActivity : AppCompatActivity() {
                     }
                     //priceRecyclerview.adapter = MyAdapter(priceArrayList)
                 }
+
+                val rightNow = Calendar.getInstance()
+                val currentHourIn24Format: Int =rightNow.get(Calendar.HOUR_OF_DAY)
+
+                binding.currentPricePrice.text = priceArrayList[currentHourIn24Format].Price.toString()
+
                 setBarChart()
             }
             override fun onCancelled(error: DatabaseError) {
@@ -91,14 +102,13 @@ class PricingActivity : AppCompatActivity() {
 
     private fun setBarChart() {
         barChart = findViewById(R.id.barChart)
-        barEntriesList.clear()
 
         // on below line we are calling get bar
         // chart data to add data to our array list
         getBarChartData()
 
         // on below line we are initializing our bar data set
-        barDataSet = BarDataSet(barEntriesList, "Bar Chart Data")
+        barDataSet = BarDataSet(barEntriesList, "Data taken from : https://nordpool.didnt.work/?vat")
 
         // on below line we are initializing our bar data
         barData = BarData(barDataSet)

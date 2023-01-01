@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class MyAdapter(private val deviceList : ArrayList<DeviceData>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(private val deviceList : MutableList<DeviceData>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

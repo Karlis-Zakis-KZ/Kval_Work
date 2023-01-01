@@ -1,11 +1,12 @@
 package com.example.smarthomeappv3
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthomeappv3.databinding.ActivityMainBinding
@@ -20,10 +21,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dbref : DatabaseReference
     private lateinit var binding: ActivityMainBinding
     private lateinit var deviceRecyclerview : RecyclerView
-    private lateinit var deviceArrayList : MutableLiveData<List<DeviceData>>
+    private lateinit var deviceArrayList : ArrayList<DeviceData>
 
 
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         buttonClick.setOnClickListener {
             replaceActivity(AddDevice())
         }
+
     }
 
     private fun replaceActivity(activity: AppCompatActivity){
@@ -86,6 +89,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getUserData(mCurrentUserId: String) {
+        if(deviceArrayList.isNotEmpty()){
+            deviceArrayList.clear()
+        }
         dbref = FirebaseDatabase.getInstance().getReference("Users/" + mCurrentUserId + "/Devices")
         dbref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -94,7 +100,6 @@ class MainActivity : AppCompatActivity() {
                         val device = userSnapshot.getValue(DeviceData::class.java)
                         deviceArrayList.add(device!!)
                     }
-                    val kz = deviceArrayList
                     deviceRecyclerview.adapter = MyAdapter(deviceArrayList)
                 }
             }
