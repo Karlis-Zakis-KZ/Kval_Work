@@ -96,9 +96,18 @@ class MainActivity : AppCompatActivity() {
         dbref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
-                    for (userSnapshot in snapshot.children){
-                        val device = userSnapshot.getValue(DeviceData::class.java)
-                        deviceArrayList.add(device!!)
+                    for (deviceSnapshot in snapshot.children){
+                        val device = deviceSnapshot.getValue(DeviceData::class.java)
+
+                        if (device != null) {
+                            val positionTest = deviceArrayList.indexOfFirst { it.Device_ID == device.Device_ID }
+
+                            if (positionTest >= 0 ){
+                                deviceArrayList[positionTest] = device
+                            }else{
+                                deviceArrayList.add(device)
+                            }
+                        }
                     }
                     deviceRecyclerview.adapter = MyAdapter(deviceArrayList)
                 }
