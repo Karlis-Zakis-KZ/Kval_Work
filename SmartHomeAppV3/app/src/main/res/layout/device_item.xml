@@ -85,9 +85,30 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
 
+            <ImageButton
+                android:id="@+id/editDevice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_baseline_edit_24" />
 
+            <ImageButton
+                android:id="@+id/deleteDevice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_baseline_delete_forever_24" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

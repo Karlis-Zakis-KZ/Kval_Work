@@ -6,56 +6,77 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current temperature : "
-        android:id="@+id/textCurrentTemp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/CurrentTemp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/textCurrentTemp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current humidity : "
-        android:id="@+id/textCurrentHumid"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_below="@+id/textCurrentTemp"
-        />
+        android:layout_marginStart="16dp"
+        android:id="@+id/topTextBox"
+        android:layout_marginVertical="6dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/CurrentHumid"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_below="@+id/CurrentTemp"
-        android:layout_toEndOf="@+id/textCurrentHumid"
-        />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current temperature : "
+                android:id="@+id/textCurrentTemp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/CurrentTemp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current humidity : "
+                android:id="@+id/textCurrentHumid"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/CurrentHumid"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/deviceList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNavigationBar"
-        android:layout_below="@+id/textCurrentHumid"
+        android:layout_below="@+id/topTextBox"
         app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textCurrentHumid"
-        app:layout_constraintTop_toTopOf="@+id/textCurrentHumid" />
+        app:layout_constraintStart_toStartOf="@+id/topTextBox"
+        app:layout_constraintTop_toTopOf="@+id/topTextBox" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.Icon"

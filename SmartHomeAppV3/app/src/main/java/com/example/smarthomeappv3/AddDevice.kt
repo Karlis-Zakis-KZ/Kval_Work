@@ -1,17 +1,16 @@
 package com.example.smarthomeappv3
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.example.smarthomeappv3.databinding.ActivityAddDeviceBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+
 
 class AddDevice : AppCompatActivity() {
 
-    private lateinit var firebaseData: DatabaseReference
     private lateinit var binding: ActivityAddDeviceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +34,7 @@ class AddDevice : AppCompatActivity() {
 
             database.reference.child(devicePath).child("Device_ID").setValue(deviceID)
             database.reference.child(devicePath).child("Device_Name").setValue(deviceName)
-            database.reference.child(devicePath).child("On_Status").setValue("False")
+            database.reference.child(devicePath).child("On_Status").setValue("false")
             database.reference.child(devicePath).child("Consumed_Energy_AtStart").setValue(0)
             database.reference.child(devicePath).child("Current_Consumption").setValue(0)
             database.reference.child(devicePath).child("Last_Calculated_Consumption").setValue(0)
@@ -56,7 +55,6 @@ class AddDevice : AppCompatActivity() {
             true
         }
 
-
     }
     private fun replaceActivity(activity: AppCompatActivity){
 
@@ -65,4 +63,5 @@ class AddDevice : AppCompatActivity() {
         finish()
 
     }
+
 }

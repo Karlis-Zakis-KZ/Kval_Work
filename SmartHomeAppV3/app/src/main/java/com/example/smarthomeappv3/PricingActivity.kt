@@ -65,7 +65,6 @@ class PricingActivity : AppCompatActivity() {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getUserData() {
 
         dbref = FirebaseDatabase.getInstance().getReference("/Eletricity Prices/"+ current)
@@ -129,7 +128,6 @@ class PricingActivity : AppCompatActivity() {
         barChart.description.isEnabled = false
 
         barChart.invalidate()
-
 
     }
 
