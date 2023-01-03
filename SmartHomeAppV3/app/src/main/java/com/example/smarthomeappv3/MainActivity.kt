@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var deviceRecyclerview : RecyclerView
     private lateinit var deviceArrayList : ArrayList<DeviceData>
 
-
-
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +76,10 @@ class MainActivity : AppCompatActivity() {
             replaceActivity(AddDevice())
         }
 
+        val scanForDevice = findViewById<MaterialButton>(R.id.addDeviceToNetworkButton)
+        scanForDevice.setOnClickListener {
+            replaceActivity(AddDevice())
+        }
     }
 
     private fun replaceActivity(activity: AppCompatActivity){

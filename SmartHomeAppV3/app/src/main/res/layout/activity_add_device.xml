@@ -59,22 +59,38 @@
         android:layout_marginStart="20dp"
         android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/inputDeviceIP"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="15"
-        android:inputType="textPersonName"
-        android:hint="Device ID"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:textSize="20sp"
-        android:layout_below="@+id/textForDeviceIP"/>
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/textForDeviceIP"
+        android:id="@+id/ipBox"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/inputDeviceIP"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:inputType="textPersonName"
+            android:hint="Device IP"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"/>
+
+        <ImageButton
+            android:id="@+id/scanNetwork"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_baseline_wifi_24" />
+
+    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputDeviceIP"
+        android:layout_below="@+id/ipBox"
         android:layout_centerHorizontal="true"
         android:id="@+id/saveDeviceInfo"
         android:layout_marginTop="50dp"

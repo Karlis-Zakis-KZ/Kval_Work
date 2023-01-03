@@ -83,6 +83,23 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_above="@+id/bottomNavigationBar"
+        android:id="@+id/addDeviceToNetworkButton"
+        android:layout_marginBottom="30dp"
+        android:insetLeft="5dp"
+        android:insetTop="5dp"
+        android:insetRight="5dp"
+        android:insetBottom="5dp"
+        android:layout_marginStart="20dp"
+        app:icon="@drawable/ic_baseline_wifi_find_24"
+        app:iconPadding="0dp"
+        app:iconSize="24dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/bottomNavigationBar"
         android:id="@+id/addDeviceButton"
         android:layout_marginBottom="30dp"
         android:layout_alignEnd="@+id/bottomNavigationBar"

@@ -3,6 +3,7 @@ package com.example.smarthomeappv3
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.smarthomeappv3.databinding.ActivityAddDeviceBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -42,6 +43,11 @@ class AddDevice : AppCompatActivity() {
             database.reference.child(devicePath).child("Device_IP").setValue(deviceIP)
             replaceActivity(MainActivity())
 
+        }
+
+        val findIPAddresses: ImageButton = findViewById(R.id.scanNetwork)
+        findIPAddresses.setOnClickListener{
+            replaceActivity(ScanForDevicesIP())
         }
 
         binding.bottomNavigationBar.setOnItemSelectedListener {

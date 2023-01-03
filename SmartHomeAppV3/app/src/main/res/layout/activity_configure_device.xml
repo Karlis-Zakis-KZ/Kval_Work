@@ -39,23 +39,39 @@ tools:context=".ConfigureDevice">
         android:layout_marginStart="20dp"
         android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/inputDeviceIP"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="15"
-        android:inputType="textPersonName"
-        android:hint="Device ID"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:textSize="20sp"
-        android:layout_below="@+id/textForDeviceIP"/>
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/textForDeviceIP"
+        android:id="@+id/ipBox"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/inputDeviceIP"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:inputType="textPersonName"
+            android:hint="Device IP"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"/>
+
+        <ImageButton
+            android:id="@+id/scanNetwork"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_baseline_wifi_24" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textForDeviceTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputDeviceIP"
+        android:layout_below="@+id/ipBox"
         android:text="Select time till which you want the device to run"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
@@ -169,6 +185,7 @@ tools:context=".ConfigureDevice">
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:text="Save"/>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationBar"
