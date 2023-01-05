@@ -45,7 +45,7 @@ tools:context=".ConfigureDevice">
         android:layout_gravity="center_vertical"
         android:layout_below="@+id/textForDeviceIP"
         android:id="@+id/ipBox"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:orientation="horizontal">
 
         <EditText
@@ -83,15 +83,18 @@ tools:context=".ConfigureDevice">
         android:layout_gravity="center_vertical"
         android:layout_below="@+id/textForDeviceTime"
         android:id="@+id/timeBox"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ToggleButton
             android:id="@+id/timeSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:src="@drawable/ic_baseline_access_time_24" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TimePicker
             android:id="@+id/timePicker1"
@@ -116,21 +119,25 @@ tools:context=".ConfigureDevice">
         android:layout_gravity="center_vertical"
         android:layout_below="@+id/textForDeviceTemp"
         android:id="@+id/tempBox"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ToggleButton
             android:id="@+id/tempSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:src="@drawable/ic_baseline_whatshot_24" />
+            android:layout_marginTop="15dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/inputTargetTemp"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:ems="15"
             android:inputType="textPersonName"
@@ -157,18 +164,21 @@ tools:context=".ConfigureDevice">
         android:layout_marginLeft="30dp"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ToggleButton
             android:id="@+id/humidSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ic_baseline_water_drop_24" />
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/inputTargetHumid"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:ems="15"
             android:inputType="textPersonName"

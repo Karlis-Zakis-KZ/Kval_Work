@@ -52,6 +52,7 @@ class MyAdapter(private val deviceList : MutableList<DeviceData>) : RecyclerView
 
         holder.editButton.setOnClickListener { v ->
             val intent = Intent(v.context, ConfigureDevice::class.java)
+            intent.putExtra("deviceID",currentitem.Device_ID)
             v.context.startActivity(intent)
         }
 
