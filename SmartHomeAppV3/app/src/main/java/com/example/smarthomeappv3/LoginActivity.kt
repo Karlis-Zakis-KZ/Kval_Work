@@ -3,6 +3,7 @@ package com.example.smarthomeappv3
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import com.example.smarthomeappv3.databinding.ActivityLoginBinding
@@ -38,7 +39,8 @@ class LoginActivity : AppCompatActivity() {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     }else{
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show()
+                        Log.d("Login Error :",it.exception.toString())
                     }
                 }
             }

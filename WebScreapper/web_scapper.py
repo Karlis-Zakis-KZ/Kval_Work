@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from datetime import date
 
+# Gets todays date
 today = date.today()
 
 # Defining the path of the executable web driver 
@@ -34,6 +35,7 @@ for count,row in enumerate(rows):
     pricelist[timeOfPrice.text]['Color'] = price.value_of_css_property("background-color")
     pricelist[timeOfPrice.text]['Time'] = int(str(timeOfPrice.text)[:2])
 
+# Firebase live databases informatios to let the script write data in it
 firebaseConfig = {
   "apiKey": "AIzaSyBlz2ZT4Rew_CdQrXEGmw7xMpkMj1_oiAM",
   "authDomain": "smarthomeappv3.firebaseapp.com",
@@ -47,6 +49,7 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
 
+# Writing the data in the Firebase
 database.child("Eletricity Prices").child(today).update(pricelist)
 
 #Runs every one hour to update the results

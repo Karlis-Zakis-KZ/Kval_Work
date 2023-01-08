@@ -33,7 +33,7 @@ class AddDevice : AppCompatActivity() {
             if(deviceName == ""){
                 Toast.makeText(this, "Please set the Device Name", Toast.LENGTH_SHORT).show()
             }else if(deviceID == ""){
-                Toast.makeText(this, "Please set the Device IP", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please set the Device ID", Toast.LENGTH_SHORT).show()
             }else{
                 val database = FirebaseDatabase.getInstance()
                 val devicePath = "Users/$mCurrentUserId/Devices/$deviceID"
