@@ -109,13 +109,9 @@ void loop() {
 
       if(object.getString("/Devices/"+substring+"/On_Status") != state){
         if(state == "true"){
-          http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
-          http.POST("turn=off");
-          http.end();
+          sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
         }else{
-          http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
-          http.POST("turn=on");
-          http.end();
+          sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=on");
         }
         delay(1000);
       }
@@ -143,55 +139,86 @@ void loop() {
         struct tm *ptm = gmtime ((time_t *)&epochTime); 
       
         int monthDay = ptm->tm_mday;
-        Serial.print("Month day: ");
-        Serial.println(monthDay);
-      
         int currentMonth = ptm->tm_mon+1;
-        Serial.print("Month: ");
-        Serial.println(currentMonth);
-      
         int currentYear = ptm->tm_year+1900;
-        Serial.print("Year: ");
-        Serial.println(currentYear);
 
+        String currentMontString = String(currentMonth);
+        String currentDayString = String(monthDay);
 
-        String currentDate = String(currentYear) + "-" + String(currentMonth) + "-" + String(monthDay);
-        Serial.print("Current date: ");
-        Serial.println(currentDate);
+        if (currentMonth<10){
+          currentMontString = "0"+String(currentMonth);
+        }
+        if (monthDay<10){
+          currentDayString = "0"+String(monthDay);
+        }
 
+        String currentDate = String(currentYear) + "-" + currentMontString + "-" + currentDayString;
+
+        String getTime = String(timeClient.getHours())+"-"+String(timeClient.getHours()+1);
+        
         if(object.getString("/Devices/"+substring+"/HasPrice") == "true"){
-          if(object.getString("/Devices/"+substring+"/PriceSet").toFloat() == Firebase.("/Eletricity Prices/"+currentDate+String(timeClient.getHours()))){
-            http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
-            http.POST("turn=off");
-            http.end();
+          if(object.getFloat("/Devices/"+substring+"/PriceSet") <= Firebase.getFloat("/Eletricity Prices/"+currentDate+"/"+getTime+"/Price")){
+            sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
           }
         }
         if(object.getString("/Devices/"+substring+"/HasTemp") == "true"){
           if(object.getString("/Devices/"+substring+"/TempSet").toInt() == object.getString("/Temp/Tempeture").toInt()){
-            http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
-            http.POST("turn=off");
-            http.end();
+            sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
           }
         }
         if(object.getString("/Devices/"+substring+"/HasHumid") == "true"){
           if(object.getString("/Devices/"+substring+"/HumidSet").toInt() == object.getString("/Temp/Humidity").toInt()){
-            http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
-            http.POST("turn=off");
-            http.end();
+            sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
           }
         }
         if(object.getString("/Devices/"+substring+"/HasTime") == "true"){
           if(object.getString("/Devices/"+substring+"/HourSet").toInt() <= timeClient.getHours()){
             if(object.getString("/Devices/"+substring+"/MinSet").toInt() <= timeClient.getMinutes()){
-              http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
-              http.POST("turn=off");
-              http.end();
+              sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
             }
           }
-
         }
       }
     }
   }
   delay(15000);
 }
+
+
+void sendCommand(String objectPath, String urlCommands, String task){
+
+  HTTPClient http; 
+  http.begin("http://"+objectPath+urlCommands);
+  http.POST(task);
+  http.end();
+
+}
+
+
+String getCommandData(){
+
+
+
+
+
+  http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);  //Specify request destination
+  Serial.println(object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
+  int httpCode = http.GET();                                  //Send the request
+
+  String payload = "";
+
+  if (httpCode > 0) { //Check the returning code
+    payload = http.getString();   //Get the request response payload
+    Serial.println(payload);             //Print the response payload
+  }
+  http.end(); 
+
+  int fristValueStart = payload.indexOf(':');
+  int fristValueEnd = payload.indexOf(',');
+  String state = payload.substring(fristValueStart+1, fristValueEnd);
+}
+
+
+
+
+
