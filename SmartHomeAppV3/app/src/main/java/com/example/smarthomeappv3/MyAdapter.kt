@@ -2,6 +2,7 @@ package com.example.smarthomeappv3
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,11 +39,13 @@ class MyAdapter(private val deviceList : MutableList<DeviceData>) : RecyclerView
 
         holder.name.text = currentitem.Device_Name.toString()
         holder.consumption.text = currentitem.Current_Consumption.toString()
-        holder.state.isChecked = currentitem.On_Status!!
+        holder.state.isChecked = currentitem.On_Status!!.toBoolean()
+
+        Log.d("firebase", currentitem.On_Status!!.toBoolean().toString())
 
 
         holder.state.setOnClickListener{
-            database.reference.child(devicePath).child("On_Status").setValue(holder.state.isChecked)
+            database.reference.child(devicePath).child("On_Status").setValue(holder.state.isChecked.toString())
         }
 
         holder.deleteButton.setOnClickListener{
