@@ -38,7 +38,10 @@ class MyAdapter(private val deviceList : MutableList<DeviceData>) : RecyclerView
         val devicePath = "Users/$mCurrentUserId/Devices/$deviceID"
 
         holder.name.text = currentitem.Device_Name.toString()
-        holder.consumption.text = currentitem.Current_Consumption.toString()
+        val tempTextWatt = currentitem.Calculated_Price.toString()+"W"
+        holder.consumption.text = tempTextWatt
+        val tempTextPrice = currentitem.Calculated_Price.toString()+"EUR"
+        holder.price.text = tempTextPrice
         holder.state.isChecked = currentitem.On_Status!!.toBoolean()
 
         Log.d("firebase", currentitem.On_Status!!.toBoolean().toString())
@@ -71,6 +74,7 @@ class MyAdapter(private val deviceList : MutableList<DeviceData>) : RecyclerView
 
         val name : TextView = itemView.findViewById(R.id.displayDeviceName)
         val consumption : TextView = itemView.findViewById(R.id.displayConsumption)
+        val price : TextView = itemView.findViewById(R.id.displayCalculatedPrice)
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         val state : Switch = itemView.findViewById(R.id.stateSwitch)
         val deleteButton : ImageButton = itemView.findViewById(R.id.deleteDevice)

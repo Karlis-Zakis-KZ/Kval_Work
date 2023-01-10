@@ -90,22 +90,11 @@ void loop() {
       // Update the end pointer to the next comma
       end = devliceListString.indexOf(',', start);
 
-      http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);  //Specify request destination
-      Serial.println(object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
-      int httpCode = http.GET();                                  //Send the request
-
-      String payload = "";
-
-      if (httpCode > 0) { //Check the returning code
-        payload = http.getString();   //Get the request response payload
-        Serial.println(payload);             //Print the response payload
-      }
-      http.end(); 
+      String payload = getCommandData(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands);
 
       int fristValueStart = payload.indexOf(':');
       int fristValueEnd = payload.indexOf(',');
       String state = payload.substring(fristValueStart+1, fristValueEnd);
-
 
       if(object.getString("/Devices/"+substring+"/On_Status") != state){
         if(state == "true"){
@@ -115,24 +104,14 @@ void loop() {
         }
         delay(1000);
       }
-      String deviceData = "";
-      http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlData);
-      int httpdata = http.GET();
-      if (httpdata > 0) { //Check the returning code
-        deviceData = http.getString();   //Get the request response payload
-      }
-      http.end();
 
-      if(object.getString("/Devices/"+substring+"/Consumed_Energy_AtStart")=="0"){
+      if(object.getString("/Devices/"+substring+"/On_Status") == "true"){
+
+        String deviceData = getCommandData(object.getString("/Devices/"+substring+"/Device_IP"),urlData);
+
         int totalStart = deviceData.indexOf("total");
         int totalEnd = deviceData.indexOf('}');
         String totalConsumtion = deviceData.substring(totalStart+7, totalEnd);
-
-        Serial.println(totalConsumtion);
-        Firebase.setString(path + "/Devices/"+substring +"/Consumed_Energy_AtStart",totalConsumtion);
-      }
-
-      if(object.getString("/Devices/"+substring+"/On_Status") == "true"){
 
         unsigned long epochTime = timeClient.getEpochTime();
         //Get a time structure
@@ -141,10 +120,8 @@ void loop() {
         int monthDay = ptm->tm_mday;
         int currentMonth = ptm->tm_mon+1;
         int currentYear = ptm->tm_year+1900;
-
         String currentMontString = String(currentMonth);
         String currentDayString = String(monthDay);
-
         if (currentMonth<10){
           currentMontString = "0"+String(currentMonth);
         }
@@ -153,28 +130,46 @@ void loop() {
         }
 
         String currentDate = String(currentYear) + "-" + currentMontString + "-" + currentDayString;
-
         String getTime = String(timeClient.getHours())+"-"+String(timeClient.getHours()+1);
-        
+
+        if(object.getString("/Devices/"+substring+"/Last_Calculated_Consumption")=="0"){
+          Firebase.setString(path + "/Devices/"+substring +"/Last_Calculated_Consumption",totalConsumtion);
+        }else if (timeClient.getMinutes()%10==0){
+          int startingNumber = object.getString("/Devices/"+substring+"/Last_Calculated_Consumption").toInt();
+          int endingNumber = totalConsumtion.toInt();
+
+          double calculatedPrice = ((endingNumber - startingNumber)/1000)*Firebase.getFloat("/Eletricity Prices/"+currentDate+"/"+getTime+"/Price");
+          Serial.println(String(object.getString("/Devices/"+substring +"/Calculated_Price").toDouble()+calculatedPrice));
+          Serial.println(calculatedPrice);
+        }
+
         if(object.getString("/Devices/"+substring+"/HasPrice") == "true"){
           if(object.getFloat("/Devices/"+substring+"/PriceSet") <= Firebase.getFloat("/Eletricity Prices/"+currentDate+"/"+getTime+"/Price")){
             sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
+            Firebase.setString(path+"/Devices/"+substring+"/HasPrice","false");
+            Firebase.setString(path+"/Devices/"+substring+"/On_Status","false");
           }
         }
         if(object.getString("/Devices/"+substring+"/HasTemp") == "true"){
           if(object.getString("/Devices/"+substring+"/TempSet").toInt() == object.getString("/Temp/Tempeture").toInt()){
             sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
+            Firebase.setString(path+"/Devices/"+substring+"/HasTemp","false");
+            Firebase.setString(path+"/Devices/"+substring+"/On_Status","false");
           }
         }
         if(object.getString("/Devices/"+substring+"/HasHumid") == "true"){
           if(object.getString("/Devices/"+substring+"/HumidSet").toInt() == object.getString("/Temp/Humidity").toInt()){
             sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
+            Firebase.setString(path+"/Devices/"+substring+"/HasHumid","false");
+            Firebase.setString(path+"/Devices/"+substring+"/On_Status","false");
           }
         }
         if(object.getString("/Devices/"+substring+"/HasTime") == "true"){
           if(object.getString("/Devices/"+substring+"/HourSet").toInt() <= timeClient.getHours()){
             if(object.getString("/Devices/"+substring+"/MinSet").toInt() <= timeClient.getMinutes()){
               sendCommand(object.getString("/Devices/"+substring+"/Device_IP"),urlCommands,"turn=off");
+              Firebase.setString(path+"/Devices/"+substring+"/HasTime","false");
+              Firebase.setString(path+"/Devices/"+substring+"/On_Status","false");
             }
           }
         }
@@ -190,35 +185,23 @@ void sendCommand(String objectPath, String urlCommands, String task){
   HTTPClient http; 
   http.begin("http://"+objectPath+urlCommands);
   http.POST(task);
+  delay(1000);
   http.end();
-
 }
 
 
-String getCommandData(){
+String getCommandData(String link, String command){
 
-
-
-
-
-  http.begin("http://"+object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);  //Specify request destination
-  Serial.println(object.getString("/Devices/"+substring+"/Device_IP")+urlCommands);
+  HTTPClient http; 
+  http.begin("http://"+link+command);  //Specify request destination
   int httpCode = http.GET();                                  //Send the request
-
+  delay(1000);
   String payload = "";
-
   if (httpCode > 0) { //Check the returning code
     payload = http.getString();   //Get the request response payload
     Serial.println(payload);             //Print the response payload
   }
   http.end(); 
 
-  int fristValueStart = payload.indexOf(':');
-  int fristValueEnd = payload.indexOf(',');
-  String state = payload.substring(fristValueStart+1, fristValueEnd);
+  return payload;
 }
-
-
-
-
-

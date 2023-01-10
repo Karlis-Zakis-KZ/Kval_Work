@@ -40,7 +40,6 @@ class ConfigureDevice : AppCompatActivity() {
         val disableTargetPrice: EditText = findViewById(R.id.inputTargetPrice)
         val saveButton : Button = findViewById(R.id.saveDeviceInfo)
 
-
         val deviceName: EditText = findViewById(R.id.inputDeviceName)
         val deviceIpText: EditText = findViewById(R.id.inputDeviceIP)
         database.reference.child(devicePath).get().addOnSuccessListener {
@@ -61,7 +60,6 @@ class ConfigureDevice : AppCompatActivity() {
             Log.e("firebase", "Error getting data", it)
         }
 
-
         simpleTimePicker.setIs24HourView(true)
         priceButton.setOnCheckedChangeListener { _, _ ->
             disableTargetPrice.isEnabled = priceButton.isChecked
@@ -79,7 +77,6 @@ class ConfigureDevice : AppCompatActivity() {
         findIPAddresses.setOnClickListener{
             replaceActivity(ScanForDevicesIP())
         }
-
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> replaceActivity(MainActivity())
@@ -90,8 +87,6 @@ class ConfigureDevice : AppCompatActivity() {
             }
             true
         }
-
-
         saveButton.setOnClickListener {
             if(deviceName.toString().isNotEmpty() && deviceIpText.toString().isNotEmpty()){
                 if((tempButton.isChecked && disableTempInput.toString().isNotEmpty()) ||
@@ -118,12 +113,12 @@ class ConfigureDevice : AppCompatActivity() {
             }
         }
     }
-
     private fun replaceActivity(activity: AppCompatActivity){
-
         val i = Intent(this,activity::class.java)
         startActivity(i)
         finish()
     }
-
+    fun toBoolean(s: String): Boolean {
+        return s.toBoolean()
+    }
 }
