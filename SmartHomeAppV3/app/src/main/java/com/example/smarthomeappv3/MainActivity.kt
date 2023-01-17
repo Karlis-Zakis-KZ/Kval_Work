@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -78,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         val scanForDevice = findViewById<MaterialButton>(R.id.addDeviceToNetworkButton)
         scanForDevice.setOnClickListener {
-            replaceActivity(AddDevice())
+            replaceActivity(ScanForDevicesIP())
         }
     }
 
@@ -87,7 +86,6 @@ class MainActivity : AppCompatActivity() {
         val i = Intent(this,activity::class.java)
         startActivity(i)
         finish()
-
     }
 
     private fun getUserData(mCurrentUserId: String) {

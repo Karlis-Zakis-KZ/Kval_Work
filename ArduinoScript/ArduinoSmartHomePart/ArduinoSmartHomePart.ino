@@ -105,9 +105,14 @@ void loop() {
         delay(1000);
       }
 
-      if(object.getString("/Devices/"+substring+"/On_Status") == "true"){
+      String deviceData = getCommandData(object.getString("/Devices/"+substring+"/Device_IP"),urlData);
+      int startCurrentConsumption = deviceData.indexOf(':');
+      int endCurrentConsumption = deviceData.indexOf(',');
+      String CurrentConsumption = deviceData.substring(startCurrentConsumption+1, endCurrentConsumption);
+      Firebase.setString(path + "/Devices/"+substring +"/Current_Consumption",CurrentConsumption);
 
-        String deviceData = getCommandData(object.getString("/Devices/"+substring+"/Device_IP"),urlData);
+
+      if(object.getString("/Devices/"+substring+"/On_Status") == "true"){
 
         int totalStart = deviceData.indexOf("total");
         int totalEnd = deviceData.indexOf('}');

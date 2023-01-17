@@ -46,10 +46,10 @@ class ConfigureDevice : AppCompatActivity() {
 
             deviceName.setText(it.child("Device_Name").value.toString())
             deviceIpText.setText(it.child("Device_IP").value.toString())
-            tempButton.isChecked = it.child("HasTemp").value as Boolean
-            humidButton.isChecked = it.child("HasHumid").value as Boolean
-            timeButton.isChecked = it.child("HasTime").value as Boolean
-            priceButton.isChecked = it.child("HasPrice").value as Boolean
+            tempButton.isChecked = it.child("HasTemp").value.toString().toBoolean()
+            humidButton.isChecked = it.child("HasHumid").value.toString().toBoolean()
+            timeButton.isChecked = it.child("HasTime").value.toString().toBoolean()
+            priceButton.isChecked = it.child("HasPrice").value.toString().toBoolean()
 
             if(!tempButton.isChecked){ disableTempInput.isEnabled = tempButton.isChecked }
             if(!humidButton.isChecked){ disableHumidInput.isEnabled = humidButton.isChecked }
@@ -89,10 +89,15 @@ class ConfigureDevice : AppCompatActivity() {
         }
         saveButton.setOnClickListener {
             if(deviceName.toString().isNotEmpty() && deviceIpText.toString().isNotEmpty()){
-                if((tempButton.isChecked && disableTempInput.toString().isNotEmpty()) ||
-                    (humidButton.isChecked && disableHumidInput.toString().isNotEmpty()) ||
-                    (timeButton.isChecked && simpleTimePicker.toString().isNotEmpty()))
-                {
+                if(tempButton.isChecked && disableTempInput.toString().isNotEmpty()){
+                        Toast.makeText(this, "Pleas fill out Target Temperature", Toast.LENGTH_SHORT).show()
+                }else if(humidButton.isChecked && disableHumidInput.toString().isNotEmpty()){
+                    Toast.makeText(this, "Pleas fill out the Target Humidity", Toast.LENGTH_SHORT).show()
+                }else if(timeButton.isChecked && simpleTimePicker.toString().isNotEmpty()){
+                    Toast.makeText(this, "Pleas fill out the Time selection", Toast.LENGTH_SHORT).show()
+                }else if(priceButton.isChecked && disableTargetPrice.toString().isNotEmpty()){
+                    Toast.makeText(this, "Pleas fill out the Target Price", Toast.LENGTH_SHORT).show()
+                }else{
                     database.reference.child(devicePath).child("Device_Name").setValue(deviceName.text.toString())
                     database.reference.child(devicePath).child("Device_IP").setValue(deviceIpText.text.toString())
                     database.reference.child(devicePath).child("HasTime").setValue(timeButton.isChecked)
@@ -105,8 +110,6 @@ class ConfigureDevice : AppCompatActivity() {
                     database.reference.child(devicePath).child("HasPrice").setValue(priceButton.isChecked)
                     database.reference.child(devicePath).child("PriceSet").setValue(disableTargetPrice.text.toString())
                     replaceActivity(MainActivity())
-                }else{
-                    Toast.makeText(this, "Pleas fill out the selected events for the device to turn off to", Toast.LENGTH_SHORT).show()
                 }
             }else{
                 Toast.makeText(this, "Name and IP cant be empty", Toast.LENGTH_SHORT).show()
@@ -117,8 +120,5 @@ class ConfigureDevice : AppCompatActivity() {
         val i = Intent(this,activity::class.java)
         startActivity(i)
         finish()
-    }
-    fun toBoolean(s: String): Boolean {
-        return s.toBoolean()
     }
 }

@@ -38,7 +38,7 @@ class MyAdapter(private val deviceList : MutableList<DeviceData>) : RecyclerView
         val devicePath = "Users/$mCurrentUserId/Devices/$deviceID"
 
         holder.name.text = currentitem.Device_Name.toString()
-        val tempTextWatt = currentitem.Calculated_Price.toString()+"W"
+        val tempTextWatt = currentitem.Current_Consumption.toString()+"W"
         holder.consumption.text = tempTextWatt
         val tempTextPrice = currentitem.Calculated_Price.toString()+"EUR"
         holder.price.text = tempTextPrice
@@ -52,6 +52,13 @@ class MyAdapter(private val deviceList : MutableList<DeviceData>) : RecyclerView
         }
 
         holder.deleteButton.setOnClickListener{
+
+            database.reference.child("Users/$mCurrentUserId/DeviceList/DeviceIDS").get().addOnSuccessListener {
+                val tempString = it.value.toString()
+                val modifiedString = deviceID?.let { it1 -> tempString.replace(it1+",", "") }
+                database.reference.child("Users/$mCurrentUserId/DeviceList/DeviceIDS").setValue(modifiedString)
+            }
+
             database.reference.child(devicePath).removeValue()
             deviceList.removeAt(position)
         }

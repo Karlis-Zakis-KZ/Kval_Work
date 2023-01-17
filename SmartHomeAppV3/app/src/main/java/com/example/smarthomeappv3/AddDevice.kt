@@ -53,6 +53,17 @@ class AddDevice : AppCompatActivity() {
                 database.reference.child(devicePath).child("HumidSet").setValue("0")
                 database.reference.child(devicePath).child("HasPrice").setValue("false")
                 database.reference.child(devicePath).child("PriceSet").setValue("0")
+                database.reference.child("Users/$mCurrentUserId/DeviceList/DeviceIDS").get().addOnSuccessListener {
+                    val value = it.getValue(String::class.java)
+                    var tempString = ""
+                    tempString = if (value != null){
+                        it.value.toString() + deviceID + ","
+                    }else{
+                        deviceID + ","
+                    }
+                    database.reference.child("Users/$mCurrentUserId/DeviceList/DeviceIDS").setValue(tempString)
+                }
+
 
                 replaceActivity(MainActivity())
             }

@@ -18,7 +18,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
 import java.time.LocalDate
 
-
 class PricingActivity : AppCompatActivity() {
     private lateinit var dbref : DatabaseReference
     private lateinit var priceRecyclerview : RecyclerView
@@ -60,8 +59,6 @@ class PricingActivity : AppCompatActivity() {
 
         priceArrayList = arrayListOf()
         getUserData()
-
-
 
     }
 
